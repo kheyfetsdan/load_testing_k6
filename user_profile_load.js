@@ -24,6 +24,7 @@ import { Rate, Trend } from 'k6/metrics';
 // =============================================================================
 
 const BASE_URL = 'https://platform.moya-smena.ru/api/superapp/v1';
+const BASE_URL_V2 = 'https://platform.moya-smena.ru/api/superapp/v2';
 const AUTH_TOKEN = __ENV.AUTH_TOKEN || 'Token 35d0b7f7ad199dafff76c52731d8646ebef161fb';
 
 // =============================================================================
@@ -99,7 +100,7 @@ export default function() {
   sleep(0.3);
 
   // 2. Получаем данные пользователя
-  response = http.get(`${BASE_URL}/employees/me/`, params);
+  response = http.get(`${BASE_URL_V2}/employees/me/`, params);
   checkAPIResponse(response, 'employees-me');
   sleep(0.3);
 
