@@ -1,0 +1,635 @@
+{
+	"info": {
+		"_postman_id": "c4d5e6f7-g8h9-0123-ijkl-mn4567890123",
+		"name": "Moya Smena - Static Resources",
+		"description": "Коллекция для тестирования статических ресурсов web-superapp.moya-smena.ru\n\nВключает JavaScript бандлы, конфигурационные файлы, WebAssembly модули.\n\nИспользуется в K6 нагрузочных тестах в сценарии loadStaticResourcesScenario().",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. JavaScript Bundles",
+			"item": [
+				{
+					"name": "Main Dart JS",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Accept-Encoding",
+								"value": "gzip, deflate, br"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache, no-store, must-revalidate"
+							},
+							{
+								"key": "Pragma",
+								"value": "no-cache"
+							}
+						],
+						"url": {
+							"raw": "{{static_base_url}}/main.dart.js?_={{cache_buster}}",
+							"host": [
+								"{{static_base_url}}"
+							],
+							"path": [
+								"main.dart.js"
+							],
+							"query": [
+								{
+									"key": "_",
+									"value": "{{cache_buster}}",
+									"description": "Cache buster timestamp"
+								}
+							]
+						},
+						"description": "Основной JavaScript бандл Flutter приложения.\n\nОчень большой файл (может быть несколько MB)."
+					},
+					"response": []
+				},
+				{
+					"name": "Flutter Bootstrap JS",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Accept-Encoding",
+								"value": "gzip, deflate, br"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache, no-store, must-revalidate"
+							},
+							{
+								"key": "Pragma",
+								"value": "no-cache"
+							}
+						],
+						"url": {
+							"raw": "{{static_base_url}}/flutter_bootstrap.js?_={{cache_buster}}",
+							"host": [
+								"{{static_base_url}}"
+							],
+							"path": [
+								"flutter_bootstrap.js"
+							],
+							"query": [
+								{
+									"key": "_",
+									"value": "{{cache_buster}}",
+									"description": "Cache buster timestamp"
+								}
+							]
+						},
+						"description": "Bootstrap скрипт для инициализации Flutter Web приложения."
+					},
+					"response": []
+				}
+			],
+			"description": "JavaScript бандлы Flutter Web приложения"
+		},
+		{
+			"name": "2. Configuration Files",
+			"item": [
+				{
+					"name": "Web App Manifest",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache, no-store, must-revalidate"
+							},
+							{
+								"key": "Pragma",
+								"value": "no-cache"
+							}
+						],
+						"url": {
+							"raw": "{{static_base_url}}/manifest.json?_={{cache_buster}}",
+							"host": [
+								"{{static_base_url}}"
+							],
+							"path": [
+								"manifest.json"
+							],
+							"query": [
+								{
+									"key": "_",
+									"value": "{{cache_buster}}",
+									"description": "Cache buster timestamp"
+								}
+							]
+						},
+						"description": "Web App Manifest - конфигурация PWA приложения.\n\nСодержит:\n- Название приложения\n- Иконки\n- Цвета темы\n- Display mode"
+					},
+					"response": []
+				},
+				{
+					"name": "Font Manifest",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache, no-store, must-revalidate"
+							},
+							{
+								"key": "Pragma",
+								"value": "no-cache"
+							}
+						],
+						"url": {
+							"raw": "{{static_base_url}}/assets/FontManifest.json?_={{cache_buster}}",
+							"host": [
+								"{{static_base_url}}"
+							],
+							"path": [
+								"assets",
+								"FontManifest.json"
+							],
+							"query": [
+								{
+									"key": "_",
+									"value": "{{cache_buster}}",
+									"description": "Cache buster timestamp"
+								}
+							]
+						},
+						"description": "Манифест шрифтов - список всех используемых шрифтов в приложении."
+					},
+					"response": []
+				}
+			],
+			"description": "Конфигурационные JSON файлы"
+		},
+		{
+			"name": "3. CanvasKit (WebAssembly)",
+			"item": [
+				{
+					"name": "CanvasKit JS",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Accept-Encoding",
+								"value": "gzip, deflate, br"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache, no-store, must-revalidate"
+							},
+							{
+								"key": "Pragma",
+								"value": "no-cache"
+							}
+						],
+						"url": {
+							"raw": "{{static_base_url}}/canvaskit/chromium/canvaskit.js?_={{cache_buster}}",
+							"host": [
+								"{{static_base_url}}"
+							],
+							"path": [
+								"canvaskit",
+								"chromium",
+								"canvaskit.js"
+							],
+							"query": [
+								{
+									"key": "_",
+									"value": "{{cache_buster}}",
+									"description": "Cache buster timestamp"
+								}
+							]
+						},
+						"description": "CanvasKit JavaScript - обертка для WebAssembly модуля.\n\nCanvasKit - это библиотека Skia, скомпилированная в WebAssembly для рендеринга графики."
+					},
+					"response": []
+				},
+				{
+					"name": "CanvasKit WASM",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/wasm"
+							},
+							{
+								"key": "Accept-Encoding",
+								"value": "gzip, deflate, br"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache, no-store, must-revalidate"
+							},
+							{
+								"key": "Pragma",
+								"value": "no-cache"
+							}
+						],
+						"url": {
+							"raw": "{{static_base_url}}/canvaskit/chromium/canvaskit.wasm?_={{cache_buster}}",
+							"host": [
+								"{{static_base_url}}"
+							],
+							"path": [
+								"canvaskit",
+								"chromium",
+								"canvaskit.wasm"
+							],
+							"query": [
+								{
+									"key": "_",
+									"value": "{{cache_buster}}",
+									"description": "Cache buster timestamp"
+								}
+							]
+						},
+						"description": "CanvasKit WebAssembly модуль.\n\n⚠️ ОЧЕНЬ БОЛЬШОЙ ФАЙЛ (несколько MB)!\n\nИспользуется Flutter для рендеринга UI."
+					},
+					"response": []
+				}
+			],
+			"description": "CanvasKit - движок рендеринга Flutter (Skia)"
+		},
+		{
+			"name": "4. Fonts (Examples)",
+			"item": [
+				{
+					"name": "Onest Regular Font",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "font/ttf"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache, no-store, must-revalidate"
+							},
+							{
+								"key": "Pragma",
+								"value": "no-cache"
+							}
+						],
+						"url": {
+							"raw": "{{static_base_url}}/assets/assets/fonts/onest/Onest-Regular.ttf?_={{cache_buster}}",
+							"host": [
+								"{{static_base_url}}"
+							],
+							"path": [
+								"assets",
+								"assets",
+								"fonts",
+								"onest",
+								"Onest-Regular.ttf"
+							],
+							"query": [
+								{
+									"key": "_",
+									"value": "{{cache_buster}}",
+									"description": "Cache buster timestamp"
+								}
+							]
+						},
+						"description": "Шрифт Onest Regular - основной шрифт приложения."
+					},
+					"response": []
+				},
+				{
+					"name": "Material Icons Font",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "font/otf"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache, no-store, must-revalidate"
+							},
+							{
+								"key": "Pragma",
+								"value": "no-cache"
+							}
+						],
+						"url": {
+							"raw": "{{static_base_url}}/assets/fonts/MaterialIcons-Regular.otf?_={{cache_buster}}",
+							"host": [
+								"{{static_base_url}}"
+							],
+							"path": [
+								"assets",
+								"fonts",
+								"MaterialIcons-Regular.otf"
+							],
+							"query": [
+								{
+									"key": "_",
+									"value": "{{cache_buster}}",
+									"description": "Cache buster timestamp"
+								}
+							]
+						},
+						"description": "Material Icons - иконочный шрифт от Google."
+					},
+					"response": []
+				}
+			],
+			"description": "Шрифты приложения (выборочно)"
+		},
+		{
+			"name": "5. Icons (Examples)",
+			"item": [
+				{
+					"name": "Home Icon",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "image/svg+xml"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache, no-store, must-revalidate"
+							},
+							{
+								"key": "Pragma",
+								"value": "no-cache"
+							}
+						],
+						"url": {
+							"raw": "{{static_base_url}}/assets/assets/icons/dashboard_tabs/home.svg?_={{cache_buster}}",
+							"host": [
+								"{{static_base_url}}"
+							],
+							"path": [
+								"assets",
+								"assets",
+								"icons",
+								"dashboard_tabs",
+								"home.svg"
+							],
+							"query": [
+								{
+									"key": "_",
+									"value": "{{cache_buster}}",
+									"description": "Cache buster timestamp"
+								}
+							]
+						},
+						"description": "SVG иконка главной страницы."
+					},
+					"response": []
+				},
+				{
+					"name": "Pin Icon",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "image/svg+xml"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache, no-store, must-revalidate"
+							},
+							{
+								"key": "Pragma",
+								"value": "no-cache"
+							}
+						],
+						"url": {
+							"raw": "{{static_base_url}}/assets/assets/icons/pin.svg?_={{cache_buster}}",
+							"host": [
+								"{{static_base_url}}"
+							],
+							"path": [
+								"assets",
+								"assets",
+								"icons",
+								"pin.svg"
+							],
+							"query": [
+								{
+									"key": "_",
+									"value": "{{cache_buster}}",
+									"description": "Cache buster timestamp"
+								}
+							]
+						},
+						"description": "SVG иконка маркера на карте."
+					},
+					"response": []
+				},
+				{
+					"name": "Favicon",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "image/png"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache, no-store, must-revalidate"
+							},
+							{
+								"key": "Pragma",
+								"value": "no-cache"
+							}
+						],
+						"url": {
+							"raw": "{{static_base_url}}/favicon.png?_={{cache_buster}}",
+							"host": [
+								"{{static_base_url}}"
+							],
+							"path": [
+								"favicon.png"
+							],
+							"query": [
+								{
+									"key": "_",
+									"value": "{{cache_buster}}",
+									"description": "Cache buster timestamp"
+								}
+							]
+						},
+						"description": "Favicon сайта."
+					},
+					"response": []
+				},
+				{
+					"name": "App Icon 192",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "image/png"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache, no-store, must-revalidate"
+							},
+							{
+								"key": "Pragma",
+								"value": "no-cache"
+							}
+						],
+						"url": {
+							"raw": "{{static_base_url}}/icons/Icon-192.png?_={{cache_buster}}",
+							"host": [
+								"{{static_base_url}}"
+							],
+							"path": [
+								"icons",
+								"Icon-192.png"
+							],
+							"query": [
+								{
+									"key": "_",
+									"value": "{{cache_buster}}",
+									"description": "Cache buster timestamp"
+								}
+							]
+						},
+						"description": "Иконка приложения 192x192px (для PWA)."
+					},
+					"response": []
+				}
+			],
+			"description": "SVG и PNG иконки (выборочно)"
+		},
+		{
+			"name": "6. Other Assets",
+			"item": [
+				{
+					"name": "HH Loader Animation",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache, no-store, must-revalidate"
+							},
+							{
+								"key": "Pragma",
+								"value": "no-cache"
+							}
+						],
+						"url": {
+							"raw": "{{static_base_url}}/hh-loader.json?_={{cache_buster}}",
+							"host": [
+								"{{static_base_url}}"
+							],
+							"path": [
+								"hh-loader.json"
+							],
+							"query": [
+								{
+									"key": "_",
+									"value": "{{cache_buster}}",
+									"description": "Cache buster timestamp"
+								}
+							]
+						},
+						"description": "JSON файл с анимацией загрузчика (Lottie)."
+					},
+					"response": []
+				}
+			],
+			"description": "Прочие ресурсы"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Очистка кэша при каждом запросе",
+					"// Добавляем timestamp для обхода кэша браузера и CDN",
+					"const cacheBuster = Date.now();",
+					"pm.variables.set('cache_buster', cacheBuster);",
+					"",
+					"// Логируем для отладки",
+					"console.log('Cache buster timestamp:', cacheBuster);"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Автоматические тесты для статических ресурсов",
+					"pm.test('Status code is 200', function () {",
+					"    pm.response.to.have.status(200);",
+					"});",
+					"",
+					"pm.test('Response time is less than 2000ms', function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+					"});",
+					"",
+					"pm.test('Response has body', function () {",
+					"    pm.response.to.have.body();",
+					"});",
+					"",
+					"// Проверка размера файла",
+					"pm.test('Response has reasonable size', function () {",
+					"    const contentLength = pm.response.headers.get('Content-Length');",
+					"    if (contentLength) {",
+					"        pm.expect(parseInt(contentLength)).to.be.above(0);",
+					"    }",
+					"});",
+					"",
+					"// Проверка кэширования",
+					"pm.test('Cache headers present', function () {",
+					"    const cacheControl = pm.response.headers.get('Cache-Control');",
+					"    const etag = pm.response.headers.get('ETag');",
+					"    pm.expect(cacheControl || etag).to.exist;",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "static_base_url",
+			"value": "https://web-superapp.moya-smena.ru",
+			"type": "string"
+		}
+	]
+}
+
