@@ -1,13 +1,18 @@
 /**
- * K6 Load Test: /employees/me/ (API v2)
+ * K6 Universal Endpoint Load Test
+ * 
+ * USAGE:
+ * k6 run --env ENDPOINT=/employees/me/ --env API_VERSION=v2 --env PROFILE=profile_15 endpoint_load_test.js
+ * k6 run --env ENDPOINT=/employees/addresses/ --env PROFILE=profile_30 endpoint_load_test.js
+ * 
+ * PARAMETERS:
+ * - ENDPOINT: endpoint path (required, e.g. /employees/me/)
+ * - API_VERSION: API version (optional, default: v1, options: v1, v2)
+ * - PROFILE: load profile (optional, default: profile_15, options: profile_15, profile_30)
  * 
  * PROFILES:
- * - profile_15: ~15 RPS
- * - profile_30: ~30 RPS
- * 
- * RUN:
- * k6 run --env PROFILE=profile_15 employees_me_load.js
- * k6 run --env PROFILE=profile_30 employees_me_load.js
+ * - profile_15: ~15 RPS (20 VUs, 5 minutes)
+ * - profile_30: ~30 RPS (28 VUs, 5 minutes)
  */
 
 import http from 'k6/http';
@@ -15,8 +20,18 @@ import { check, sleep } from 'k6';
 import { Rate, Trend } from 'k6/metrics';
 
 // Environment Configuration
-const BASE_URL = 'https://platform.moya-smena.ru/api/superapp/v2';
+const BASE_URL = 'https://platform.moya-smena.ru/api/superapp';
 const AUTH_TOKEN = __ENV.AUTH_TOKEN || '';
+const ENDPOINT = __ENV.ENDPOINT || '';
+const API_VERSION = __ENV.API_VERSION || 'v1';
+
+// Validation
+if (!ENDPOINT) {
+  throw new Error('ENDPOINT parameter is required. Example: --env ENDPOINT=/employees/me/');
+}
+
+// Build full URL
+const FULL_URL = `${BASE_URL}/${API_VERSION}${ENDPOINT}`;
 
 // Custom Metrics
 const apiErrors = new Rate('api_errors');
@@ -32,7 +47,7 @@ const selectedProfile = PROFILES[__ENV.PROFILE] || PROFILES.profile_15;
 
 export const options = {
   scenarios: {
-    employees_me: {
+    endpoint_test: {
       executor: 'ramping-vus',
       startVUs: 0,
       stages: [
@@ -61,13 +76,14 @@ export function setup() {
   const authStatus = AUTH_TOKEN ? '✓ Auth enabled' : '✗ No auth token';
   console.log(`[SETUP] ${authStatus}`);
   console.log(`[SETUP] Profile: ${__ENV.PROFILE || 'profile_15'} (${selectedProfile.vus} VUs)`);
-  console.log(`[SETUP] Target: ${BASE_URL}/employees/me/`);
+  console.log(`[SETUP] Target URL: ${FULL_URL}`);
+  console.log(`[SETUP] API Version: ${API_VERSION}`);
 }
 
 export default function () {
   const params = { headers: getAPIHeaders() };
   
-  const response = http.get(`${BASE_URL}/employees/me/`, params);
+  const response = http.get(FULL_URL, params);
   
   const success = check(response, {
     'status is 200': (r) => r.status === 200,
@@ -77,7 +93,7 @@ export default function () {
   apiResponseTime.add(response.timings.duration);
   
   if (response.status !== 200) {
-    console.log(`❌ employees/me: status ${response.status} - ${response.status_text}`);
+    console.log(`❌ ${ENDPOINT}: status ${response.status} - ${response.status_text}`);
   }
   
   sleep(1);
