@@ -149,6 +149,28 @@ k6 version
 
 ## 🎯 Использование
 
+### Универсальный Endpoint Test
+
+Для тестирования отдельных endpoint'ов используйте `endpoint_load_test.js`:
+
+```bash
+# Базовый синтаксис
+k6 run --env AUTH_TOKEN=<токен> --env ENDPOINT=<путь> --env PROFILE=<профиль> endpoint_load_test.js
+
+# Примеры
+# 15 RPS (20 VUs)
+k6 run --env AUTH_TOKEN=<токен> --env ENDPOINT=/employees/me/ --env API_VERSION=v2 --env PROFILE=profile_15 endpoint_load_test.js
+
+# 30 RPS (28 VUs)
+k6 run --env AUTH_TOKEN=<токен> --env ENDPOINT=/employees/addresses/ --env PROFILE=profile_30 endpoint_load_test.js
+```
+
+**Параметры:**
+- `AUTH_TOKEN` - токен авторизации (обязательный)
+- `ENDPOINT` - путь endpoint'а, например `/employees/me/` (обязательный)
+- `API_VERSION` - версия API: `v1` или `v2` (по умолчанию `v1`)
+- `PROFILE` - профиль нагрузки: `profile_15` (~15 RPS) или `profile_30` (~30 RPS) (по умолчанию `profile_15`)
+
 ### Запуск Quick Start Example
 
 #### Smoke Test (5 VUs, 1 минута)

@@ -1,60 +1,46 @@
-# Universal Endpoint Load Test
+# Универсальный Endpoint Test
 
-Универсальный скрипт для нагрузочного тестирования любого endpoint.
+Тестирование любого endpoint одним скриптом.
 
-## Использование
+## Быстрый старт
 
 ```bash
-k6 run --env ENDPOINT=<путь> --env API_VERSION=<версия> --env PROFILE=<профиль> endpoint_load_test.js
+k6 run --env AUTH_TOKEN=<токен> --env ENDPOINT=<путь> endpoint_load_test.js
 ```
 
-### Параметры
+## Параметры
 
-- **ENDPOINT** (обязательный) - путь endpoint'а (например: `/employees/me/`)
-- **API_VERSION** (опциональный) - версия API (`v1` или `v2`, по умолчанию `v1`)
-- **PROFILE** (опциональный) - профиль нагрузки (`profile_15` или `profile_30`, по умолчанию `profile_15`)
+| Параметр | Значение | Описание |
+|----------|----------|----------|
+| `AUTH_TOKEN` | токен | Обязательный. Token авторизации |
+| `ENDPOINT` | путь | Обязательный. Например: `/employees/me/` |
+| `API_VERSION` | `v1`/`v2` | Опционально. По умолчанию `v1` |
+| `PROFILE` | `profile_15`/`profile_30` | Опционально. По умолчанию `profile_15` |
 
-### Профили
+## Профили
 
-- **profile_15**: 20 VUs → ~15 RPS (5 минут)
-- **profile_30**: 28 VUs → ~30 RPS (5 минут)
+- `profile_15` → 20 VUs → ~15 RPS (7 минут)
+- `profile_30` → 28 VUs → ~30 RPS (7 минут)
 
-## Примеры
-
-### /employees/me/ (API v2)
-
-```bash
-# 15 RPS
-k6 run --env ENDPOINT=/employees/me/ --env API_VERSION=v2 --env PROFILE=profile_15 endpoint_load_test.js
-
-# 30 RPS
-k6 run --env ENDPOINT=/employees/me/ --env API_VERSION=v2 --env PROFILE=profile_30 endpoint_load_test.js
-```
-
-### /employees/addresses/
+## Примеры запуска
 
 ```bash
-# 15 RPS
-k6 run --env ENDPOINT=/employees/addresses/ --env PROFILE=profile_15 endpoint_load_test.js
+# /employees/me/ (API v2) - 15 RPS
+k6 run --env AUTH_TOKEN=<токен> --env ENDPOINT=/employees/me/ --env API_VERSION=v2 --env PROFILE=profile_15 endpoint_load_test.js
 
-# 30 RPS
-k6 run --env ENDPOINT=/employees/addresses/ --env PROFILE=profile_30 endpoint_load_test.js
-```
+# /employees/me/ (API v2) - 30 RPS
+k6 run --env AUTH_TOKEN=<токен> --env ENDPOINT=/employees/me/ --env API_VERSION=v2 --env PROFILE=profile_30 endpoint_load_test.js
 
-### /employees/docs/
+# /employees/addresses/ - 15 RPS
+k6 run --env AUTH_TOKEN=<токен> --env ENDPOINT=/employees/addresses/ --env PROFILE=profile_15 endpoint_load_test.js
 
-```bash
-# 15 RPS
-k6 run --env ENDPOINT=/employees/docs/ --env PROFILE=profile_15 endpoint_load_test.js
-
-# 30 RPS
-k6 run --env ENDPOINT=/employees/docs/ --env PROFILE=profile_30 endpoint_load_test.js
+# /employees/docs/ - 30 RPS
+k6 run --env AUTH_TOKEN=<токен> --env ENDPOINT=/employees/docs/ --env PROFILE=profile_30 endpoint_load_test.js
 ```
 
 ## Примечания
 
-- Требуется AUTH_TOKEN в переменных окружения
-- profile_30 использует 28 VUs (не 40) чтобы избежать Rate Limiter (429 ошибки)
-- Длительность теста: 7 минут (1м ramp-up + 5м load + 1м ramp-down)
-- Можно тестировать любой endpoint, передав его через параметр ENDPOINT
+- Длительность: 7 минут (1м ramp-up + 5м load + 1м ramp-down)
+- profile_30 использует 28 VUs (не 40) для избежания Rate Limiter 429
+- Можно тестировать любой endpoint
 
