@@ -81,6 +81,11 @@ function checkAPIResponse(response, endpointName) {
     [`${endpointName}: has body`]: (r) => r.body.length > 0,
   });
 
+  // Логируем ошибки с кодами
+  if (response.status !== 200) {
+    console.log(`❌ ${endpointName}: status ${response.status} - ${response.status_text}`);
+  }
+
   apiErrorRate.add(response.status !== 200);
   apiDuration.add(response.timings.duration);
 
