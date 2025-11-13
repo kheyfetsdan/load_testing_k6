@@ -19,8 +19,8 @@ k6 run --env AUTH_TOKEN=<токен> --env ENDPOINT=<путь> endpoint_load_tes
 
 ## Профили
 
-- `profile_15` → 20 VUs → ~15 RPS (7 минут)
-- `profile_30` → 28 VUs → ~30 RPS (7 минут)
+- `profile_15` → 20 VUs (sleep 1s) → ~15 RPS (7 минут)
+- `profile_30` → 32 VUs (sleep 0.9s) → ~25 RPS (7 минут) **⚠️ Ограничено Rate Limiter'ом**
 
 ## Примеры запуска
 
@@ -41,6 +41,7 @@ k6 run --env AUTH_TOKEN=<токен> --env ENDPOINT=/employees/docs/ --env PROFI
 ## Примечания
 
 - Длительность: 7 минут (1м ramp-up + 5м load + 1м ramp-down)
-- profile_30 использует 28 VUs (не 40) для избежания Rate Limiter 429
+- **profile_30 ограничен 25 RPS** - сервер блокирует запросы (429 Too Many Requests) при более высокой нагрузке
+- Для достижения >25 RPS необходимо обратиться к backend команде для увеличения лимитов Rate Limiter
 - Можно тестировать любой endpoint
 

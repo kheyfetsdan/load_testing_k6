@@ -11,8 +11,10 @@
  * - PROFILE: load profile (optional, default: profile_15, options: profile_15, profile_30)
  * 
  * PROFILES:
- * - profile_15: ~15 RPS (20 VUs, 5 minutes)
- * - profile_30: ~30 RPS (28 VUs, 5 minutes)
+ * - profile_15: ~15 RPS (20 VUs, sleep 1s, 5 minutes)
+ * - profile_30: ~25 RPS (32 VUs, sleep 0.9s, 5 minutes) - limited by Rate Limiter
+ * 
+ * NOTE: profile_30 ограничен на 25 RPS из-за Rate Limiter (429) на сервере
  */
 
 import http from 'k6/http';
@@ -39,8 +41,8 @@ const apiResponseTime = new Trend('api_response_time', true);
 
 // Load Profiles
 const PROFILES = {
-  profile_15: { vus: 20, duration: '5m' },  // ~15 RPS
-  profile_30: { vus: 28, duration: '5m' },  // ~30 RPS
+  profile_15: { vus: 20, duration: '5m', sleep: 1 },    // ~15 RPS
+  profile_30: { vus: 35, duration: '5m', sleep: 0.85 },  // ~25 RPS (max без Rate Limiter)
 };
 
 const selectedProfile = PROFILES[__ENV.PROFILE] || PROFILES.profile_15;
@@ -75,7 +77,7 @@ function getAPIHeaders() {
 export function setup() {
   const authStatus = AUTH_TOKEN ? '✓ Auth enabled' : '✗ No auth token';
   console.log(`[SETUP] ${authStatus}`);
-  console.log(`[SETUP] Profile: ${__ENV.PROFILE || 'profile_15'} (${selectedProfile.vus} VUs)`);
+  console.log(`[SETUP] Profile: ${__ENV.PROFILE || 'profile_15'} (${selectedProfile.vus} VUs, sleep: ${selectedProfile.sleep}s)`);
   console.log(`[SETUP] Target URL: ${FULL_URL}`);
   console.log(`[SETUP] API Version: ${API_VERSION}`);
 }
@@ -96,7 +98,7 @@ export default function () {
     console.log(`❌ ${ENDPOINT}: status ${response.status} - ${response.status_text}`);
   }
   
-  sleep(1);
+  sleep(selectedProfile.sleep);
 }
 
 export function teardown(data) {
