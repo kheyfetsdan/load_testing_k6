@@ -7,13 +7,15 @@
  * Доступные профили:
  * - test:   1 VU,  30 секунд  (быстрая проверка работоспособности)
  * - smoke:  5 VUs, 1 минута   (проверка базовой функциональности)
- * - load:   75 VUs, 9 минут   (обычная нагрузка) - по умолчанию
- * - heavy:  75 VUs, 9 минут   (усиленная нагрузка, sleep уменьшен в 2 раза)
- * - stress: 200 VUs, 15 минут (поиск пределов производительности)
+ * - medium: 24 VUs, 9 минут   (средняя нагрузка ~15 RPS)
+ * - load:   75 VUs, 9 минут   (обычная нагрузка ~47 RPS) - по умолчанию
+ * - heavy:  75 VUs, 9 минут   (усиленная нагрузка ~87 RPS, sleep уменьшен в 2 раза)
+ * - stress: 200 VUs, 15 минут (поиск пределов производительности ~126 RPS)
  * 
  * Запуск:
  * k6 run --env PROFILE=test QUICK_START_EXAMPLE.js
  * k6 run --env PROFILE=smoke QUICK_START_EXAMPLE.js
+ * k6 run --env PROFILE=medium QUICK_START_EXAMPLE.js
  * k6 run --env PROFILE=load QUICK_START_EXAMPLE.js
  * k6 run --env PROFILE=heavy QUICK_START_EXAMPLE.js
  * k6 run --env PROFILE=stress QUICK_START_EXAMPLE.js
@@ -67,6 +69,12 @@ export const options = {
     : __ENV.PROFILE === 'smoke' 
     ? [
         { duration: '1m', target: 5 },
+      ]
+    : __ENV.PROFILE === 'medium'
+    ? [
+        { duration: '2m', target: 24 },
+        { duration: '5m', target: 24 },
+        { duration: '2m', target: 0 },
       ]
     : __ENV.PROFILE === 'heavy'
     ? [
@@ -173,6 +181,10 @@ function checkAPIResponse(response, endpointName) {
     [`${endpointName}: response time < 500ms`]: (r) => r.timings.duration < 500,
     [`${endpointName}: has body`]: (r) => r.body.length > 0,
   });
+
+  if (response.status !== 200) {
+    console.log(`❌ ${endpointName}: status ${response.status} - ${response.status_text}`);
+  }
 
   // Записываем метрики
   apiErrorRate.add(response.status !== 200);
@@ -390,10 +402,13 @@ k6 run --env PROFILE=test QUICK_START_EXAMPLE.js
 # Smoke Test (5 VUs, 1 minute) - проверка базовой функциональности
 k6 run --env PROFILE=smoke QUICK_START_EXAMPLE.js
 
-# Load Test (50 VUs, 9 minutes total) - обычная нагрузка
+# Medium Test (24 VUs, 9 minutes) - средняя нагрузка ~15 RPS
+k6 run --env PROFILE=medium QUICK_START_EXAMPLE.js
+
+# Load Test (75 VUs, 9 minutes total) - обычная нагрузка ~47 RPS
 k6 run --env PROFILE=load QUICK_START_EXAMPLE.js
 
-# Heavy Test (75 VUs, 9 minutes, sleep уменьшен в 2 раза) - усиленная нагрузка
+# Heavy Test (75 VUs, 9 minutes, sleep уменьшен в 2 раза) - усиленная нагрузка ~87 RPS
 k6 run --env PROFILE=heavy QUICK_START_EXAMPLE.js
 
 # Stress Test (up to 200 VUs, 15 minutes) - поиск пределов
@@ -408,6 +423,9 @@ k6 run --env PROFILE=test --out json=results/test-$(date +%Y%m%d-%H%M%S).json QU
 
 # Smoke test с сохранением
 k6 run --env PROFILE=smoke --out json=results/smoke-$(date +%Y%m%d-%H%M%S).json QUICK_START_EXAMPLE.js
+
+# Medium test с сохранением
+k6 run --env PROFILE=medium --out json=results/medium-$(date +%Y%m%d-%H%M%S).json QUICK_START_EXAMPLE.js
 
 # Load test с сохранением
 k6 run --env PROFILE=load --out json=results/load-$(date +%Y%m%d-%H%M%S).json QUICK_START_EXAMPLE.js
