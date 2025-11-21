@@ -1,0 +1,21 @@
+{
+  "name": "spa-browser-tester",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "auth": "node --loader ts-node/esm src/auth.ts",
+    "scenario": "node --loader ts-node/esm src/scenario.ts",
+    "run": "node --loader ts-node/esm src/runner.ts",
+    "report": "node --loader ts-node/esm src/report.ts"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "playwright": "^1.56.1"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}
