@@ -57,4 +57,19 @@ npm run report -- results/metrics-<timestamp>.ndjson
 - Метрики LCP доступны не всегда, зависят от контента и браузера.
 - Для снижения нагрузки на CPU используйте `MAX_CONCURRENCY` (ограничивает одновременные сценарии) и `HEADLESS=true`. Также помогает уменьшение `MAX_RPS`.
 
+### Выполнение нагрузки страницы home 
+$env:SCENARIO = "0"
+$env:MAX_RPS = "5"
+$env:MAX_CONCURRENCY = "5"
+$env:DURATION_SECONDS = "120"
+$env:PAGE_KEY = "home"
+npm run run
+
+### Выполнение нагрузки сценария. Переход на home -> search -> ожидание 1 секунда -> переход на home
+$env:SCENARIO = "home-search-main"
+$env:MAX_RPS = "5"
+$env:MAX_CONCURRENCY = "5"
+$env:DURATION_SECONDS = "120"
+npm run run
+
 
